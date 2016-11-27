@@ -2,15 +2,12 @@
 from urllib import request
 import os
 import re
-
 from bs4 import BeautifulSoup
 
 # Create directory if dataset directory does not already exist
-cur_path = os.path.split(os.path.abspath(__file__))[0]
-output_fldr = 'data/raw/'
-output_dir = os.path.join(cur_path, output_fldr)
-if not os.access(output_dir, os.F_OK):
-    os.makedirs(output_dir)
+output_fldr = '../data/raw/'
+if not os.access(output_fldr, os.F_OK):
+    os.mkdir(output_fldr)
 
 # Get html file and save locally
 def getHTML(url):
@@ -33,12 +30,3 @@ def getURL(page):
         result = chunk.get('href')
         reviewLinks.append(result)
     return reviewLinks
-
-# Produce HTML files
-# reviewLinks = getURL(98)
-# for reviewLink in reviewLinks: getHTML('http://www.gamespot.com' + reviewLink)
-
-# reviewLinks = getURL(137)
-# for reviewLink in reviewLinks: getHTML('http://www.gamespot.com' + reviewLink)
-# reviewLinks = getURL(138)
-# for reviewLink in reviewLinks: getHTML('http://www.gamespot.com' + reviewLink)

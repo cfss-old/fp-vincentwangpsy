@@ -10,21 +10,10 @@ library(broom)
 library(pander)
 library(modelr)
 library(caret)
-data(stop_words)
+
 nrc <- get_sentiments("nrc") %>%
   mutate(word = wordStem(word)) %>%
   distinct()
-
-# Read data, adjust encoding
-data_raw <- read_csv("data/df_cb_main.csv") %>%
-  mutate(Review = iconv(Review, "ASCII", "UTF-8")) %>%
-  transmute(GameTitle = `Game Title`, Review, GSScore = `GS Score`, UserScore = `User Score`)
-
-# Tokenize, remove stop words
-text_tidy <- data_raw %>%
-  unnest_tokens(word, Review) %>%
-  anti_join(stop_words, by = "word") %>%
-  mutate(word = wordStem(word))
 
 # Sentiment words by frequency
 text_sentCount <- text_tidy %>%
