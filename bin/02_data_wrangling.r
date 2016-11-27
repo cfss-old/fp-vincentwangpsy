@@ -15,8 +15,25 @@ data(stop_words)
     arrange(GameTitle, GSScore) %>%
     distinct(GameTitle, .keep_all = TRUE)
   
-  # Tokenize, remove stop words, stem words
-  text_tidy <- data_raw %>%
+  # Remove game title words in each review
+  title_tidy <- text_raw %>%
+    mutate(TitleToken = GameTitle) %>%
+    unnest_tokens(word, TitleToken) %>%
+    select(GameTitle, word)
+  i <- 1
+  for(title in text_raw$GameTitle){
+    title_tidy_single <- filter(title_tidy, GameTitle == text_raw[[1]][i])
+    for(titleText in title_tidy_single$word){
+      filterTextS = paste("(^(", titleText, ") )", sep = "")
+      filterTextO = paste("(( ", titleText, "))", sep = "")
+      text_raw[i, 2] <- gsub(filterTextS, "", text_raw[i, 2], ignore.case = TRUE)      
+      text_raw[i, 2] <- gsub(filterTextO, "", text_raw[i, 2], ignore.case = TRUE)   
+    }
+    i <- i + 1
+  }
+  
+  # Tokenize review, remove stop words, stem words
+  text_tidy <- text_raw %>%
     unnest_tokens(word, Review) %>%
     anti_join(stop_words, by = "word") %>%
     mutate(word = wordStem(word))
