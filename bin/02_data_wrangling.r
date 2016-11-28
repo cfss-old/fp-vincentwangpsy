@@ -45,6 +45,7 @@ data(stop_words)
     bind_tf_idf(word, GameTitle, n)
   
   # Save in feather file
+  write_feather(text_raw, "./data/text_raw.feather")  
   write_feather(text_tidy, "./data/text_tidy.feather")
   write_feather(text_tfidf, "./data/text_tfidf.feather")
   

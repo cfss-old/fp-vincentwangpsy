@@ -9,9 +9,9 @@ from data_collection_modules import extractHTML as extract
 # Produce HTML files
 if True:
 
-    reviewLinks = collect.getURL(157)
+    reviewLinks = collect.getURL(165)
     for reviewLink in reviewLinks: collect.getHTML('http://www.gamespot.com' + reviewLink)
-    reviewLinks = collect.getURL(158)
+    reviewLinks = collect.getURL(166)
     for reviewLink in reviewLinks: collect.getHTML('http://www.gamespot.com' + reviewLink)
 
 
